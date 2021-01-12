@@ -5,14 +5,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def target_function(x):
-    y = x*x
+    y = x**2+2
     return y
 
 def derivative_function(x):
     return 2*x
 
 def draw_function():
-    x = np.linspace(-1.2,1.2)
+    x = np.linspace(-100,100)
     y = target_function(x)
     plt.plot(x,y)
 
@@ -24,17 +24,21 @@ def draw_gd(X):
     plt.plot(X,Y)
 
 if __name__ == '__main__':
-    x = 1.2
+    x = 90
     eta = 0.3
     error = 1e-3
     X = []
     X.append(x)
     y = target_function(x)
-    while y > error:
+    y_last = y
+    while True:
         x = x - eta * derivative_function(x)
         X.append(x)
         y = target_function(x)
         print("x=%f, y=%f" %(x,y))
+        if abs(y - y_last) < error:
+            break
+        y_last = y
 
 
     draw_function()
