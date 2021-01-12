@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def draw_fun(X,Y):
-    x = np.linspace(1.2,10)
+    x = np.linspace(1.01,10)
     a = x*x
     b = np.log(a)
     c = np.sqrt(b)
@@ -35,7 +35,7 @@ def backward(x,a,b,c,y):
 def update(x, delta_x):
     x = x - delta_x
     if x < 1:
-        x = 1.1
+        x = 1.05
     return x
 
 if __name__ == '__main__':
