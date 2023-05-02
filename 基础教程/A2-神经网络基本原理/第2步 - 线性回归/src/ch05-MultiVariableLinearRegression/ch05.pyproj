@@ -11,6 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>ch05</Name>
     <RootNamespace>ch05</RootNamespace>
+    <InterpreterId>Global|ContinuumAnalytics|Anaconda39-64</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HelperClass\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda39-64" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

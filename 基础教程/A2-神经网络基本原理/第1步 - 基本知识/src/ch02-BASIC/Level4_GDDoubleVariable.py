@@ -31,7 +31,7 @@ def show_3d_surface(x, y, z):
 
 if __name__ == '__main__':
     theta = np.array([3,1])
-    eta = 0.1
+    eta = 0.9
     error = 1e-2
 
     X = []
