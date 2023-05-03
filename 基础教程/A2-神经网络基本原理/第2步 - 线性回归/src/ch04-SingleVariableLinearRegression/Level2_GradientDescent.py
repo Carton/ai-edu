@@ -16,7 +16,10 @@ if __name__ == '__main__':
     reader.ReadData()
     X,Y = reader.GetWholeTrainSamples()
 
-    eta = 0.1
+    print(f"X: {X[0]},{X[-1]}")
+    print(f"Y: {Y[0]},{Y[-1]}")
+
+    eta = 0.05
     w, b = 0.0, 0.0
     for i in range(reader.num_train):
         # get x and y value for one sample
@@ -33,6 +36,7 @@ if __name__ == '__main__':
         # update w,b
         w = w - eta * dw
         b = b - eta * db
+        #print(w, b)
 
     print("w=", w)    
     print("b=", b)

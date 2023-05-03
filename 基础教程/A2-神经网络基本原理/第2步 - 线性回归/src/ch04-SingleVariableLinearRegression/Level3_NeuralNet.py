@@ -24,30 +24,33 @@ class NeuralNet_0_1(object):
         dz = z - y
         db = dz
         dw = x * dz
-        return dw, db
+        return dw, db, dz
 
     def __update(self, dw, db):
         self.w = self.w - self.eta * dw
         self.b = self.b - self.eta * db
 
     def train(self, dataReader):
+        dzs = []
         for i in range(dataReader.num_train):
             # get x and y value for one sample
             x,y = dataReader.GetSingleTrainSample(i)
             # get z from x,y
             z = self.__forward(x)
             # calculate gradient of w and b
-            dw, db = self.__backward(x, y, z)
+            dw, db, dz = self.__backward(x, y, z)
+            dzs.append(dz)
             # update w,b
             self.__update(dw, db)
         # end for
+        return dzs
 
     def inference(self, x):
         return self.__forward(x)
 
 # end class
 
-def ShowResult(net, dataReader):
+def ShowResult(net, dataReader, dzs):
     X,Y = dataReader.GetWholeTrainSamples()
     # draw sample data
     plt.plot(X, Y, "b.")
@@ -60,18 +63,21 @@ def ShowResult(net, dataReader):
     plt.ylabel("Power of Air Conditioner(KW)")
     plt.show()
 
+    plt.plot(range(len(dzs)), dzs, "g.")
+    plt.show()
+
 
 if __name__ == '__main__':
     # read data
     sdr = DataReader_1_0(file_name)
     sdr.ReadData()
     # create net
-    eta = 0.1
+    eta = 0.06
     net = NeuralNet_0_1(eta)
-    net.train(sdr)
+    dzs = net.train(sdr)
     # result
     print("w=%f,b=%f" %(net.w, net.b))
     # predication
     result = net.inference(1.346)
     print("result=", result)
-    ShowResult(net, sdr)
+    ShowResult(net, sdr, dzs)

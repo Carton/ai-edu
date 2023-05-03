@@ -51,6 +51,9 @@ if __name__ == '__main__':
     reader.ReadData()
     X,Y = reader.GetWholeTrainSamples()
     m = X.shape[0]
+    # 转换为 1维也可以
+    X = X[:, 0]
+    Y = Y[:, 0]
     w1 = method1(X,Y,m)
     b1 = calculate_b_1(X,Y,w1,m)
 
