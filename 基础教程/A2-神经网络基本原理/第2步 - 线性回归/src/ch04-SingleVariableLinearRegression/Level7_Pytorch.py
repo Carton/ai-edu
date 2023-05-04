@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 import math
+import time  # Measure execution time
 from torch.utils.data import TensorDataset, DataLoader
 from HelperClass.DataReader_1_0 import *
 import torch.nn as nn
@@ -24,7 +25,9 @@ class Model(nn.Module):
 
 if __name__ == '__main__':
     # Check if GPU is available, and use it if possible
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    start_time = time.time()  # Start time
+    #device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = "cpu"
     print(device)
 
     max_epoch = 500
@@ -37,9 +40,10 @@ if __name__ == '__main__':
     XTrain, YTrain = sdr.XTrain, sdr.YTrain
     torch_dataset = TensorDataset(torch.FloatTensor(XTrain).to(device), torch.FloatTensor(YTrain).to(device))
 
+    batch_size = 64
     train_loader = DataLoader(          # data loader class
         dataset=torch_dataset,
-        batch_size=32,
+        batch_size=batch_size,
         shuffle=True,
     )
 
@@ -56,13 +60,21 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             pred = model(batch_x)
             loss = loss_func(pred,batch_y)
-            b_loss.append(loss.cpu().data.numpy())
+            if step == 0 and epoch % 20 == 0:
+                print(f"step {step}:")
+                # print(f"pred: {pred}")
+                # print(f"batch_y: {batch_y}")
+                print(f"loss: {loss}")
+            b_loss.append(loss.item())
             loss.backward()
             optimizer.step()
-            b_loss.append(loss.cpu().data.numpy())
         e_loss.append(np.mean(b_loss))
         if epoch % 20 == 0:
             print("Epoch: %d, Loss: %.5f" % (epoch, np.mean(b_loss)))
+
+    end_time = time.time()  # End time
+    print("Execution time: {:.2f} seconds".format(end_time - start_time))  # Print execution time
+
     plt.plot([i for i in range(max_epoch)], e_loss)
     plt.xlabel('Epoch')
     plt.ylabel('Mean loss')
