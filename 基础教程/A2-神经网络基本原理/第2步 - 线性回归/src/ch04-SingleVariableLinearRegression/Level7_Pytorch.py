@@ -23,6 +23,10 @@ class Model(nn.Module):
         return x
 
 if __name__ == '__main__':
+    # Check if GPU is available, and use it if possible
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(device)
+
     max_epoch = 500
     num_category = 3
     sdr = DataReader_1_0(file_name)
@@ -31,7 +35,7 @@ if __name__ == '__main__':
     num_input = 1       # input size
     # get numpy form data
     XTrain, YTrain = sdr.XTrain, sdr.YTrain
-    torch_dataset = TensorDataset(torch.FloatTensor(XTrain), torch.FloatTensor(YTrain))
+    torch_dataset = TensorDataset(torch.FloatTensor(XTrain).to(device), torch.FloatTensor(YTrain).to(device))
 
     train_loader = DataLoader(          # data loader class
         dataset=torch_dataset,
@@ -40,7 +44,9 @@ if __name__ == '__main__':
     )
 
     loss_func = nn.MSELoss()
+    # Initialize the model and move it to the device
     model = Model(num_input)
+    model.to(device)
     optimizer = Adam(model.parameters(), lr=1e-2)
 
     e_loss = []     # mean loss at every epoch
