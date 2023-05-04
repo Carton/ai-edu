@@ -89,13 +89,23 @@ class NeuralNet_1_0(object):
         w = np.linspace(result_w-1,result_w+1,len1)
         b = np.linspace(result_b-1,result_b+1,len2)
         W,B = np.meshgrid(w,b)
+        print(W.shape)
         len = len1 * len2
         X,Y = dataReader.GetWholeTrainSamples()
         m = X.shape[0]
+        print(X.shape)
+        print(W.ravel().reshape(1,len).shape)
         Z = np.dot(X, W.ravel().reshape(1,len)) + B.ravel().reshape(1,len)
+        print(f"Z: {Z.shape}, {Z}")
+        print("Loss1:")
         Loss1 = (Z - Y)**2
+        print(Loss1.shape, Loss1)
+        print("Loss2:")
         Loss2 = Loss1.sum(axis=0,keepdims=True)/m
+        print(Loss2.shape, Loss2)
+        print("Loss3:")
         Loss3 = Loss2.reshape(len1, len2)
+        print(Loss3.shape, Loss3)
         plt.contour(W,B,Loss3,levels=np.logspace(-5, 5, 100), norm=LogNorm(), cmap=plt.cm.jet)
 
         # show w,b trace
