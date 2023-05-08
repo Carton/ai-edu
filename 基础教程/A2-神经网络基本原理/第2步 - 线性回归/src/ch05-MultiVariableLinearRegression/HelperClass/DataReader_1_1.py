@@ -29,6 +29,7 @@ class DataReader_1_1(object):
             self.YRaw = data["label"]
             self.num_train = self.XRaw.shape[0]
             self.XTrain = self.XRaw
+            print(self.XTrain.shape)
             self.YTrain = self.YRaw
         else:
             raise Exception("Cannot find train file, please run ch05_data.py first")
