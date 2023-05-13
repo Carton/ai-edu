@@ -41,28 +41,29 @@ if __name__ == '__main__':
         shuffle=True,
     )
 
-    loss_func = nn.MSELoss()
-    model = Model(num_input)
-    optimizer = Adam(model.parameters(), lr=1e-4)
+    loss_func = nn.MSELoss()  # 定义损失函数为均方误差损失
+    model = Model(num_input)  # 创建模型实例
+    # Adam（Adaptive Moment Estimation）优化器是一种自适应学习率的优化算法，它结合了Momentum和RMSprop两种优化方法的优点。
+    optimizer = Adam(model.parameters(), lr=1e-4)  # 定义优化器为Adam，并设置学习率
 
     e_loss = []     # mean loss at every epoch
     for epoch in range(max_epoch):
         b_loss = []     # mean loss at every batch
         for step, (batch_x, batch_y) in enumerate(train_loader):
-            optimizer.zero_grad()
-            pred = model(batch_x)
-            loss = loss_func(pred,batch_y)
-            b_loss.append(loss.cpu().data.numpy())
-            loss.backward()
-            optimizer.step()
-            b_loss.append(loss.cpu().data.numpy())
-        e_loss.append(np.mean(b_loss))
+            optimizer.zero_grad()  # 清空梯度
+            pred = model(batch_x)  # 预测
+            loss = loss_func(pred, batch_y)  # 计算损失
+            b_loss.append(loss.cpu().data.numpy())  # 将损失添加到b_loss列表中
+            loss.backward()  # 反向传播
+            optimizer.step()  # 更新参数
+            #b_loss.append(loss.cpu().data.numpy())  # 将损失添加到b_loss列表中
+        e_loss.append(np.mean(b_loss))  # 计算每个epoch的平均损失并添加到e_loss列表中
         if epoch % 20 == 0:
-            print("Epoch: %d, Loss: %.5f" % (epoch, np.mean(b_loss)))
-    plt.plot([i for i in range(max_epoch)], e_loss)
-    plt.xlabel('Epoch')
-    plt.ylabel('Mean loss')
-    plt.show()
+            print("Epoch: %d, Loss: %.5f" % (epoch, np.mean(b_loss)))  # 每20个epoch打印一次损失
+    plt.plot([i for i in range(max_epoch)], e_loss)  # 绘制损失曲线
+    plt.xlabel('Epoch')  # x轴标签
+    plt.ylabel('Mean loss')  # y轴标签
+    plt.show()  # 显示图像
 
 
 
