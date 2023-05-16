@@ -46,13 +46,14 @@ class LogicDataReader(DataReader_1_1):
         self.YTrain = self.YRaw = Y
         self.num_train = self.XRaw.shape[0]
 
-   
+
 def Test(net, reader):
     X,Y = reader.GetWholeTrainSamples()
     A = net.inference(X)
     print(A)
     diff = np.abs(A-Y)
     result = np.where(diff < 1e-2, True, False)
+    # 这里的4 是样本数量，所有使用两个输入x1,x2的逻辑门，都是4个样本
     if result.sum() == 4:
         return True
     else:
@@ -68,7 +69,7 @@ def draw_split_line(net):
     x = np.array([-0.1,1.1])
     y = w * x + b
     plt.plot(x,y)
-   
+
 def draw_source_data(reader, title, show=False):
     fig = plt.figure(figsize=(5,5))
     plt.grid()
@@ -100,19 +101,20 @@ if __name__ == '__main__':
     reader.Read_Logic_NOT_Data()
     train(reader, "Logic NOT operator")
 
-    reader = LogicDataReader()
-    reader.Read_Logic_AND_Data()
-    train(reader, "Logic AND operator")
 
-    reader = LogicDataReader()
-    reader.Read_Logic_NAND_Data()
-    train(reader, "Logic NAND operator")
+    # reader = LogicDataReader()
+    # reader.Read_Logic_AND_Data()
+    # train(reader, "Logic AND operator")
 
-    reader = LogicDataReader()
-    reader.Read_Logic_OR_Data()
-    train(reader, "Logic OR operator")
+    # reader = LogicDataReader()
+    # reader.Read_Logic_NAND_Data()
+    # train(reader, "Logic NAND operator")
 
-    reader = LogicDataReader()
-    reader.Read_Logic_NOR_Data()
-    train(reader, "Logic NOR operator")
+    # reader = LogicDataReader()
+    # reader.Read_Logic_OR_Data()
+    # train(reader, "Logic OR operator")
+
+    # reader = LogicDataReader()
+    # reader.Read_Logic_NOR_Data()
+    # train(reader, "Logic NOR operator")
 

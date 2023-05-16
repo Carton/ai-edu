@@ -9,6 +9,7 @@ from HelperClass.Visualizer_1_0 import *
 
 file_name = "ch06.npz"
 
+# 根据几何含义绘制二分类的分割线
 def draw_split_line(net):
     b12 = -net.B[0,0]/net.W[1,0]
     w12 = -net.W[0,0]/net.W[1,0]
@@ -46,8 +47,9 @@ if __name__ == '__main__':
     draw_source_data(reader, show=True)
     # net
     num_input = 2
-    num_output = 1    
-    hp = HyperParameters_1_1(num_input, num_output, eta=0.1, max_epoch=1000, batch_size=10, eps=1e-3, net_type=NetType.BinaryClassifier)
+    num_output = 1
+    # 训练更多个 epoch，结果也更精确一些
+    hp = HyperParameters_1_1(num_input, num_output, eta=0.1, max_epoch=20000, batch_size=20, eps=1e-3, net_type=NetType.BinaryClassifier)
     net = NeuralNet_1_2(hp)
     net.train(reader, checkpoint=10)
 

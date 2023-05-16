@@ -34,6 +34,8 @@ class NeuralNet_1_2(object):
         else:
             return Z
 
+    # 这里是给线性分类用的损失函数的反向传播，但是使用了sigmoid函数后，公式碰巧和线性回归的一样
+    # 问过AI，这里是某种巧合
     def backwardBatch(self, batch_x, batch_y, batch_a):
         m = batch_x.shape[0]
         dZ = batch_a - batch_y
