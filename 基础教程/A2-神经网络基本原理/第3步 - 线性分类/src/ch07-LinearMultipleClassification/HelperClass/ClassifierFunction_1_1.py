@@ -5,7 +5,6 @@
 Version 1.1
 what's new:
 - add softmax
-- remove tanh
 """
 
 import numpy as np
@@ -14,6 +13,10 @@ class Logistic(object):
     def forward(self, z):
         a = 1.0 / (1.0 + np.exp(-z))
         return a
+
+class Tanh(object):
+    def forward(self, z):
+        a = 2.0 / (1.0 + np.exp(-2*z)) - 1.0
 
 class Softmax(object):
     def forward(self, z):

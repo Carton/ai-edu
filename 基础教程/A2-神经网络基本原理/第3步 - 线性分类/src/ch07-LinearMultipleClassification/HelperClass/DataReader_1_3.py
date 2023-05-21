@@ -92,11 +92,16 @@ class DataReader_1_3(object):
         self.YTrain = y_new
 
     def ToOneHot(self, num_category, base=0):
+        """将原始的Y值转换为One-Hot编码
+        num_category: 类别的数量
+        base: 类别的起始值，默认为0"""
         count = self.YRaw.shape[0]
         self.num_category = num_category
         y_new = np.zeros((count, self.num_category))
         for i in range(count):
+            # 获取原始Y值中的类别值
             n = (int)(self.YRaw[i,0])
+            # 将对应位置设为1，表示这个类别
             y_new[i,n-base] = 1
         self.YTrain = y_new
 

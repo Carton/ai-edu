@@ -56,7 +56,7 @@ if __name__ == '__main__':
     reader.NormalizeX()
 
     num_input = 2
-    params = HyperParameters_1_1(num_input, num_category, eta=0.1, max_epoch=100, batch_size=10, eps=1e-3, net_type=NetType.MultipleClassifier)
+    params = HyperParameters_1_1(num_input, num_category, eta=0.1, max_epoch=200000, batch_size=10, eps=1e-3, net_type=NetType.MultipleClassifier)
     net = NeuralNet_1_2(params)
     net.train(reader, checkpoint=1)
 
@@ -66,3 +66,12 @@ if __name__ == '__main__':
     print(output)
 
     ShowResult(reader.XTrain, reader.YTrain, xt, output)
+
+    # 训练了200000次后，才得到比较符合直觉的结果：
+    # W= [[-10.04642932 -51.32307016  61.36949948]
+    # [ 38.02451002 -27.88234765 -10.14216237]]
+    # B= [[-13.14446463  41.88911348 -28.74464886]]
+    # [[5.78288310e-13 9.99997994e-01 2.00630081e-06]
+    # [3.90996506e-03 6.29728655e-09 9.96090029e-01]
+    # [9.92332966e-01 7.55612554e-03 1.10908762e-04]
+    # [2.30968694e-01 7.69031306e-01 5.98063091e-17]]
