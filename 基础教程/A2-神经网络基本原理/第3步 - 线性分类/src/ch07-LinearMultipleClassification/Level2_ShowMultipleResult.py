@@ -19,6 +19,8 @@ def ShowResult(X,Y,xt,yt):
     fig = plt.figure(figsize=(6,6))
     DrawThreeCategoryPoints(X[:,0], X[:,1], Y[:], xlabel="x1", ylabel="x2", show=False)
 
+    # 计算三条直线的截距和斜率
+    # 具体公式看文档
     b13 = (net.B[0,0] - net.B[0,2])/(net.W[1,2] - net.W[1,0])
     w13 = (net.W[0,0] - net.W[0,2])/(net.W[1,2] - net.W[1,0])
 
@@ -28,6 +30,7 @@ def ShowResult(X,Y,xt,yt):
     b12 = (net.B[0,1] - net.B[0,0])/(net.W[1,0] - net.W[1,1])
     w12 = (net.W[0,1] - net.W[0,0])/(net.W[1,0] - net.W[1,1])
 
+    # 绘制三条直线
     x = np.linspace(0,1,2)
     y = w13 * x + b13
     p13, = plt.plot(x,y,c='r')
@@ -39,6 +42,7 @@ def ShowResult(X,Y,xt,yt):
     x = np.linspace(0,1,2)
     y = w12 * x + b12
     p12, = plt.plot(x,y,c='g')
+
 
     plt.legend([p13,p23,p12], ["13","23","12"])
     plt.axis([-0.1,1.1,-0.1,1.1])
