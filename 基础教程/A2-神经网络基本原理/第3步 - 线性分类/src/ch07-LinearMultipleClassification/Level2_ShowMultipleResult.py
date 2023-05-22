@@ -60,7 +60,7 @@ if __name__ == '__main__':
     reader.NormalizeX()
 
     num_input = 2
-    params = HyperParameters_1_1(num_input, num_category, eta=0.1, max_epoch=200000, batch_size=10, eps=1e-3, net_type=NetType.MultipleClassifier)
+    params = HyperParameters_1_1(num_input, num_category, eta=0.1, max_epoch=2000, batch_size=10, eps=1e-3, net_type=3)
     net = NeuralNet_1_2(params)
     net.train(reader, checkpoint=1)
 

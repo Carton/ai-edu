@@ -8,7 +8,7 @@ Version 1.1
 from HelperClass.EnumDef_1_0 import *
 
 class HyperParameters_1_1(object):
-    def __init__(self, input_size, output_size, eta=0.1, max_epoch=1000, batch_size=5, eps=0.1, net_type=NetType.Fitting):
+    def __init__(self, input_size, output_size, eta=0.1, max_epoch=1000, batch_size=5, eps=0.1, net_type=1):
         self.input_size = input_size
         self.output_size = output_size
         self.eta = eta

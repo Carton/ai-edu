@@ -19,11 +19,11 @@ class LossFunction_1_1(object):
     # fcFunc: feed forward calculation
     def CheckLoss(self, A, Y):
         m = Y.shape[0]
-        if self.net_type == NetType.Fitting:
+        if self.net_type == 1:
             loss = self.MSE(A, Y, m)
-        elif self.net_type == NetType.BinaryClassifier:
+        elif self.net_type == 2:
             loss = self.CE2(A, Y, m)
-        elif self.net_type == NetType.MultipleClassifier:
+        elif self.net_type == 3:
             loss = self.CE3(A, Y, m)
         #end if
         return loss

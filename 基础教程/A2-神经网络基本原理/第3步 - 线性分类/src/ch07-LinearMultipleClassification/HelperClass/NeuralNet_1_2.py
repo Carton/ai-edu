@@ -10,6 +10,10 @@ import matplotlib.pyplot as plt
 import math
 from pathlib import Path
 from matplotlib.colors import LogNorm
+from numba import njit
+from numba import float64
+from numba.experimental import jitclass
+
 
 from HelperClass.DataReader_1_3 import *
 from HelperClass.HyperParameters_1_1 import *
@@ -17,36 +21,39 @@ from HelperClass.TrainingHistory_1_0 import *
 from HelperClass.LossFunction_1_1 import *
 from HelperClass.ClassifierFunction_1_1 import *
 
+@njit
+def forwardBatch(W: float64[:,:], B: float64[:,:], batch_x: float64[:,:], net_type):
+    Z = np.dot(batch_x, W) + B
+    if net_type == 2:
+        A = 1.0 / (1.0 + np.exp(-Z))
+        return A
+    elif net_type == 3:
+        shift_z = Z - np.max(Z, axis=1, keepdims=True)
+        exp_z = np.exp(shift_z)
+        A = exp_z / np.sum(exp_z, axis=1, keepdims=True)
+        return A
+    else:
+        return Z
+
+def backwardBatch(W, B, batch_x, batch_y, batch_a):
+    m = batch_x.shape[0]
+    dZ = batch_a - batch_y
+    dB = dZ.sum(axis=0, keepdims=True)/m
+    dW = np.dot(batch_x.T, dZ)/m
+    return dW, dB
+
 class NeuralNet_1_2(object):
     def __init__(self, params):
         self.params = params
         self.W = np.zeros((self.params.input_size, self.params.output_size))
         self.B = np.zeros((1, self.params.output_size))
 
-    def forwardBatch(self, batch_x):
-        Z = np.dot(batch_x, self.W) + self.B
-        if self.params.net_type == NetType.BinaryClassifier:
-            A = Logistic().forward(Z)
-            return A
-        elif self.params.net_type == NetType.MultipleClassifier:
-            A = Softmax().forward(Z)
-            return A
-        else:
-            return Z
-
-    def backwardBatch(self, batch_x, batch_y, batch_a):
-        m = batch_x.shape[0]
-        dZ = batch_a - batch_y
-        dB = dZ.sum(axis=0, keepdims=True)/m
-        dW = np.dot(batch_x.T, dZ)/m
-        return dW, dB
-
     def update(self, dW, dB):
         self.W = self.W - self.params.eta * dW
         self.B = self.B - self.params.eta * dB
 
     def inference(self, x):
-        return self.forwardBatch(x)
+        return forwardBatch(self.W, self.B, x, self.params.net_type)
 
     def train(self, dataReader, checkpoint=0.1):
         # calculate loss to decide the stop condition
@@ -65,9 +72,9 @@ class NeuralNet_1_2(object):
                 # get x and y value for one sample
                 batch_x, batch_y = dataReader.GetBatchTrainSamples(self.params.batch_size, iteration)
                 # get z from x,y
-                batch_a = self.forwardBatch(batch_x)
+                batch_a = forwardBatch(self.W, self.B, batch_x, self.params.net_type)
                 # calculate gradient of w and b
-                dW, dB = self.backwardBatch(batch_x, batch_y, batch_a)
+                dW, dB = backwardBatch(self.W, self.B, batch_x, batch_y, batch_a)
                 # update w,b
                 self.update(dW, dB)
 
@@ -92,6 +99,6 @@ class NeuralNet_1_2(object):
     def checkLoss(self, loss_fun, dataReader):
         X,Y = dataReader.GetWholeTrainSamples()
         m = X.shape[0]
-        A = self.forwardBatch(X)
+        A = forwardBatch(self.W, self.B, X, self.params.net_type)
         loss = loss_fun.CheckLoss(A, Y)
         return loss
