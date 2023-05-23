@@ -25,7 +25,8 @@ class TrainingHistory_1_0(object):
         plt.ylabel("loss")
         if xmin != None and ymin != None:
             plt.axis([xmin, xmax, ymin, ymax])
-        plt.show()
+        plt.savefig("loss_history.png")
+        plt.close()
         return title
 
     def GetLast(self):

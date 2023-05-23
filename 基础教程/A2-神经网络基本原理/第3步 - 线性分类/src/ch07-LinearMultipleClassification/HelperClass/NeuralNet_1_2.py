@@ -21,6 +21,21 @@ from HelperClass.TrainingHistory_1_0 import *
 from HelperClass.LossFunction_1_1 import *
 from HelperClass.ClassifierFunction_1_1 import *
 
+
+@njit
+def np_apply_along_axis(func1d, axis, arr):
+  assert arr.ndim == 2
+  assert axis in [0, 1]
+  if axis == 0:
+    result = np.empty(arr.shape[1])
+    for i in range(len(result)):
+      result[i] = func1d(arr[:, i])
+  else:
+    result = np.empty(arr.shape[0])
+    for i in range(len(result)):
+      result[i] = func1d(arr[i, :])
+  return result
+
 @njit
 def forwardBatch(W: float64[:,:], B: float64[:,:], batch_x: float64[:,:], net_type):
     Z = np.dot(batch_x, W) + B
@@ -28,19 +43,21 @@ def forwardBatch(W: float64[:,:], B: float64[:,:], batch_x: float64[:,:], net_ty
         A = 1.0 / (1.0 + np.exp(-Z))
         return A
     elif net_type == 3:
-        max_z = Z.max(axis=1).reshape((-1, 1))  # 手动实现 keepdims=True
+        #max_z = Z.max(axis=1).reshape((-1, 1))
+        max_z = np_apply_along_axis(np.max, 1, Z).reshape((-1, 1))  # 手动实现 keepdims=True
         shift_z = Z - max_z
         exp_z = np.exp(shift_z)
-        A = exp_z / np.sum(exp_z, axis=1, keepdims=True)  # 如果这行代码仍然报错，也需要手动实现 keepdims=True
+        A = exp_z / np_apply_along_axis(np.sum, 1, exp_z).reshape((-1, 1))
         return A
     else:
         return Z
 
-
+@njit
 def backwardBatch(W, B, batch_x, batch_y, batch_a):
     m = batch_x.shape[0]
     dZ = batch_a - batch_y
-    dB = dZ.sum(axis=0, keepdims=True)/m
+    #dB = dZ.sum(axis=0, keepdims=True)/m
+    dB = np_apply_along_axis(np.sum, 0, dZ)/m
     dW = np.dot(batch_x.T, dZ)/m
     return dW, dB
 
@@ -68,7 +85,8 @@ class NeuralNet_1_2(object):
         checkpoint_iteration = (int)(max_iteration * checkpoint)
 
         for epoch in range(self.params.max_epoch):
-            print("epoch=%d" %epoch)
+            if epoch % 1000 == 0:
+                print("epoch=%d" %epoch)
             dataReader.Shuffle()
             for iteration in range(max_iteration):
                 # get x and y value for one sample
@@ -83,7 +101,8 @@ class NeuralNet_1_2(object):
                 total_iteration = epoch * max_iteration + iteration
                 if (total_iteration+1) % checkpoint_iteration == 0:
                     loss = self.checkLoss(loss_function, dataReader)
-                    print(epoch, total_iteration, loss)
+                    if epoch % 1000 == 0:
+                        print(epoch, total_iteration, loss)
                     loss_history.AddLossHistory(epoch*max_iteration+iteration, loss)
                     if loss < self.params.eps:
                         break

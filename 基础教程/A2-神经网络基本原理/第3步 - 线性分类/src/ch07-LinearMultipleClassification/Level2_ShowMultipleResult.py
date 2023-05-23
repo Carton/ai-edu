@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 import math
+import time
 
 from HelperClass.NeuralNet_1_2 import *
 from HelperClass.Visualizer_1_0 import *
@@ -51,18 +52,21 @@ def ShowResult(X,Y,xt,yt):
 
 # 主程序
 if __name__ == '__main__':
+    begin = time.time()
     num_category = 3
     reader = DataReader_1_3(file_name)
     reader.ReadData()
     reader.ToOneHot(num_category, base=1)
     # show raw data before normalization
-    ShowData(reader.XRaw, reader.YTrain)
+    #ShowData(reader.XRaw, reader.YTrain)
     reader.NormalizeX()
 
     num_input = 2
-    params = HyperParameters_1_1(num_input, num_category, eta=0.1, max_epoch=2000, batch_size=10, eps=1e-3, net_type=3)
+    params = HyperParameters_1_1(num_input, num_category, eta=0.1, max_epoch=200000, batch_size=10, eps=1e-3, net_type=3)
     net = NeuralNet_1_2(params)
     net.train(reader, checkpoint=1)
+    end = time.time()
+    print("train time used:", end-begin)
 
     xt_raw = np.array([5,1,7,6,5,6,2,7]).reshape(4,2)
     xt = reader.NormalizePredicateData(xt_raw)
@@ -79,3 +83,6 @@ if __name__ == '__main__':
     # [3.90996506e-03 6.29728655e-09 9.96090029e-01]
     # [9.92332966e-01 7.55612554e-03 1.10908762e-04]
     # [2.30968694e-01 7.69031306e-01 5.98063091e-17]]
+
+    # 使用了 Numba 加速后，训练了200000次：
+    # train time used: 95.15425086021423
