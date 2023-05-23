@@ -338,3 +338,6 @@ site/
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
+基础教程/A2-神经网络基本原理/loss_history.png
+基础教程/A2-神经网络基本原理/ch07.npz
+基础教程/A2-神经网络基本原理/ch06.npz
