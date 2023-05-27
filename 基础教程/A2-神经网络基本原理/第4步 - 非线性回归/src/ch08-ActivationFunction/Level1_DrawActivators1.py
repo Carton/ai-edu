@@ -31,3 +31,4 @@ if __name__ == '__main__':
     Draw(-7,7,CSigmoid(),"Sigmoid Function","Derivative of Sigmoid")
     Draw(-7,7,CSigmoid(),"Logistic Function","Derivative of Logistic")
     Draw(-5,5,CStep(0.3),"Step Function","Derivative of Step")
+    Draw(-7,7,CTanh(),"Tanh Function","Derivative of BenIdentity")

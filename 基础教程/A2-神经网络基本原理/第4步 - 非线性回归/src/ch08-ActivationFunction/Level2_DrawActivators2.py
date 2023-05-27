@@ -20,7 +20,8 @@ def Draw(start,end,func,lable1,lable2):
 
     p1, = plt.plot(z,a)
     p2, = plt.plot(z,da)
-    plt.legend([p1,p2], [lable1, lable2])
+    p3, = plt.plot(z, dz, linestyle='--')
+    plt.legend([p1,p2,p3], [lable1, lable2, "dz"])
     plt.grid()
     plt.xlabel("input : z")
     plt.ylabel("output : a")

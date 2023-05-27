@@ -55,7 +55,7 @@ class Model(nn.Module):
         return x
 
 if __name__ == '__main__':
-    max_epoch = 500
+    max_epoch = 2000
     num_category = 3
     reader = DataReader_1_3(file_name)
     reader.ReadData()

@@ -13,5 +13,6 @@ class CLeakyRelu(object):
 
     def backward(self, z, a, delta):
         da = np.array([1 if x > 0 else self.alpha for x in a])
-        dz = 0
+        #TODO: 原来写的是 dz = 0, 这里不能像下面这样写？
+        dz = delta * da
         return da, dz
