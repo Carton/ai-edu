@@ -15,7 +15,8 @@ class NetType(Enum):
     MultipleClassifier = 3
 
 class InitialMethod(Enum):
-    Zero = 0,
-    Normal = 1,
-    Xavier = 2,
-    MSRA = 3
+    Zero = 0,  # 全零初始化
+    Normal = 1,  # 正态分布初始化
+    Xavier = 2,  # Xavier初始化
+    MSRA = 3  # MSRA初始化
+

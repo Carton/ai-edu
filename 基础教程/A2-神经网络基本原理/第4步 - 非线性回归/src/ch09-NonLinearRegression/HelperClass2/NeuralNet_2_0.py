@@ -19,6 +19,20 @@ from HelperClass2.ActivatorFunction_2_0 import *
 from HelperClass2.ClassifierFunction_2_0 import *
 from HelperClass2.WeightsBias_1_0 import *
 
+
+# 1. 增加了隐藏层：NeuraNet_2_0.py 使用了两层神经网络，包括一个隐藏层和一个输出层。
+# 而给出的代码仅使用了一个输出层。
+
+# 2. 激活函数的变化：在 NeuraNet_2_0.py 中，第一层使用了 Sigmoid 激活函数，而在
+# 第二层中使用了 Softmax 或 Logistic 函数。而给出的代码中没有使用激活函数。
+
+# 3. 反向传播算法：NeuraNet_2_0.py 中的训练过程使用了反向传播算法来更新权重和偏置，
+# 而给出的代码中没有使用反向传播算法。
+
+# 4. 代码结构和模块化：NeuraNet_2_0.py 使用了 HelperClass2 中的一些模块，如
+# LossFunction__1.py、ActivatorFunction__0.py 和 WeightsBias__0.py，使代码更
+# 加模块化。而给出的代码中使用了 HelperClass 中的一些模块，如 LossFunction__1.py 和 ClassifierFunction__1.py。
+
 class NeuralNet_2_0(object):
     def __init__(self, hp, model_name):
         self.hp = hp
@@ -60,6 +74,8 @@ class NeuralNet_2_0(object):
         # 批量下降，需要除以样本数量，否则会造成梯度爆炸
         m = batch_x.shape[0]
         # 第二层的梯度输入 公式5
+        # 注意：这里的 dZ2 是 dL/dZ2，也就是损失函数对第二层的加权输入的偏导数
+        # 写成 dZ2 = self.A2 - batch_y 是为了方便后续使用链式法则计算 dL/dW2
         dZ2 = self.A2 - batch_y
         # 第二层的权重和偏移 公式6
         self.wb2.dW = np.dot(self.A1.T, dZ2)/m 

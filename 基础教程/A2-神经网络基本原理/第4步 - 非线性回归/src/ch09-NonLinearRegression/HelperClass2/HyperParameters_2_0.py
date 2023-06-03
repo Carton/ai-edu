@@ -23,7 +23,7 @@ class HyperParameters_2_0(object):
         self.eta = eta
         self.max_epoch = max_epoch
         # if batch_size == -1, it is FullBatch
-        self.batch_size = batch_size  
+        self.batch_size = batch_size
 
         self.net_type = net_type
         self.init_method = init_method
