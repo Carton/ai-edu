@@ -21,7 +21,7 @@ def ShowLossHistory(folder, file1, hp1, file2, hp2, file3, hp3, file4, hp4):
     lh = TrainingHistory_2_0.Load(file1)
     axes = plt.subplot(2,2,1)
     lh.ShowLossHistory4(axes, hp1)
-    
+
     lh = TrainingHistory_2_0.Load(file2)
     axes = plt.subplot(2,2,2)
     lh.ShowLossHistory4(axes, hp2)
@@ -50,11 +50,11 @@ def try_hyperParameters(folder, n_hidden, batch_size, eta):
 
 
 if __name__ == '__main__':
-  
+
     dataReader = DataReader_2_0(train_data_name, test_data_name)
     dataReader.ReadData()
     dataReader.GenerateValidationSet()
-    
+
     folder = "complex_turn"
 
     ne, batch, eta = 4, 10, 0.1
@@ -62,15 +62,15 @@ if __name__ == '__main__':
 
     ne, batch, eta = 4, 10, 0.3
     file_2, hp2 = try_hyperParameters(folder, ne, batch, eta)
-    
+
     ne, batch, eta = 4, 10, 0.5
     file_3, hp3 = try_hyperParameters(folder, ne, batch, eta)
 
     ne, batch, eta = 4, 10, 0.7
     file_4, hp4 = try_hyperParameters(folder, ne, batch, eta)
-    
+
     ShowLossHistory(folder, file_1, hp1, file_2, hp2, file_3, hp3, file_4, hp4)
-    
+
     ne, batch, eta = 4, 5, 0.5
     file_1, hp1 = try_hyperParameters(folder, ne, batch, eta)
 
@@ -83,7 +83,7 @@ if __name__ == '__main__':
 
     ne, batch, eta = 4, 20, 0.5
     file_4, hp4 = try_hyperParameters(folder, ne, batch, eta)
-    
+
     ShowLossHistory(folder, file_1, hp1, file_2, hp2, file_3, hp3, file_4, hp4)
 
     ne, batch, eta = 2, 10, 0.5

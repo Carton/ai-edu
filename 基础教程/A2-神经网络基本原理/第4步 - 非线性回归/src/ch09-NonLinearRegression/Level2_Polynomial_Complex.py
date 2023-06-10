@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     # net
     num_input = 8
-    num_output = 1    
+    num_output = 1
     hp = HyperParameters_1_1(num_input, num_output, eta=0.2, max_epoch=50000, batch_size=10, eps=1e-3, net_type=NetType.Fitting)
     #params = HyperParameters(eta=0.2, max_epoch=1000000, batch_size=10, eps=1e-3, net_type=NetType.Fitting)
     net = NeuralNet_1_2(hp)

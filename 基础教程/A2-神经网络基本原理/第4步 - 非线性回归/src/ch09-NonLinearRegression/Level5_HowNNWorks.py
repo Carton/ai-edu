@@ -11,7 +11,7 @@ test_data_name = "ch09_1.test.npz"
 
 def ShowResult2D(net, title):
     count = 21
-    
+
     TX = np.linspace(0,1,count).reshape(count,1)
     TY = net.inference(TX)
 
@@ -27,7 +27,7 @@ def ShowResult2D(net, title):
     plt.legend([p1,p2,p3], ["x","z1","z2"])
     plt.grid()
     plt.show()
-    
+
     fig = plt.figure(figsize=(6,6))
     p1,= plt.plot(TX,np.zeros((count,1)),'.',c='black')
     p2,= plt.plot(TX,net.Z1[:,0],'.',c='r')

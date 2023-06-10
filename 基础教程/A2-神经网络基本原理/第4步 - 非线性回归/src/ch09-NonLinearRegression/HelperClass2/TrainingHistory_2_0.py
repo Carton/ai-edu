@@ -14,7 +14,7 @@ class TrainingHistory_2_0(object):
         self.epoch_seq = []
         self.loss_val = []
         self.accuracy_val = []
-  
+
     def Add(self, epoch, total_iteration, loss_train, accuracy_train, loss_vld, accuracy_vld):
         self.iteration_seq.append(total_iteration)
         self.epoch_seq.append(epoch)
@@ -42,7 +42,7 @@ class TrainingHistory_2_0(object):
         axes.set_xlabel("epoch")
         if xmin != None or xmax != None or ymin != None or ymax != None:
             axes.axis([xmin, xmax, ymin, ymax])
-        
+
         axes = plt.subplot(1,2,2)
         #p2, = axes.plot(self.iteration_seq, self.accuracy_train)
         #p1, = axes.plot(self.iteration_seq, self.accuracy_val)
@@ -52,7 +52,7 @@ class TrainingHistory_2_0(object):
         axes.set_title("Accuracy")
         axes.set_ylabel("accuracy")
         axes.set_xlabel("epoch")
-        
+
         title = params.toString()
         plt.suptitle(title)
         plt.show()

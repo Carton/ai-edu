@@ -26,12 +26,13 @@ if __name__ == '__main__':
     dataReader.ReadData()
     dataReader.GenerateValidationSet()
 
-    n_input, n_hidden, n_output = 1, 3, 1
+    n_input, n_hidden, n_output = 1, 4, 1
     eta, batch_size, max_epoch = 0.5, 10, 10000
     eps = 0.001
 
     hp = HyperParameters_2_0(n_input, n_hidden, n_output, eta, max_epoch, batch_size, eps, NetType.Fitting, InitialMethod.Xavier)
     net = NeuralNet_2_0(hp, "complex_131")
+    net.LoadResult()  # 把之前训练的结果加载进来，继续训练
 
     net.train(dataReader, 50, True)
     net.ShowTrainingHistory()

@@ -29,7 +29,7 @@ class WeightsBias_1_0(object):
     def __CreateNew(self):
         self.W, self.B = WeightsBias_1_0.InitialParameters(self.num_input, self.num_output, self.init_method)
         self.__SaveInitialValue()
-        
+
     def __LoadExistingParameters(self):
         file_name = str.format("{0}/{1}.npz", self.folder, self.initial_value_filename)
         w_file = Path(file_name)

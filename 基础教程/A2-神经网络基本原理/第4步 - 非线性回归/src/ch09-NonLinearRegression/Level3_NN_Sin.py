@@ -28,12 +28,13 @@ if __name__ == '__main__':
     dataReader.ReadData()
     dataReader.GenerateValidationSet()
 
-    n_input, n_hidden, n_output = 1, 2, 1
-    eta, batch_size, max_epoch = 0.05, 10, 5000
-    eps = 0.001
+    n_input, n_hidden, n_output = 1, 3, 1
+    eta, batch_size, max_epoch = 0.05, 10, 30000
+    eps = 0.002
 
     hp = HyperParameters_2_0(n_input, n_hidden, n_output, eta, max_epoch, batch_size, eps, NetType.Fitting, InitialMethod.Xavier)
     net = NeuralNet_2_0(hp, "sin_121")
+    #net.LoadResult()  # 把之前训练的结果加载进来，继续训练
 
     net.train(dataReader, 50, True)
     net.ShowTrainingHistory()
