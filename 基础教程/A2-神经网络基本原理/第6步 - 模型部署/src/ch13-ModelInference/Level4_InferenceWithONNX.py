@@ -48,7 +48,7 @@ def on_mouse_press(event):
     startx = event.xdata
     starty = event.ydata
     print("press:{0},{1}", startx, starty)
-    
+
 def on_mouse_release(event):
     global isdraw, startx, starty
     print("release:", event.xdata, event.ydata, isdraw)
@@ -57,8 +57,8 @@ def on_mouse_release(event):
 def on_mouse_move(event):
     global isdraw, startx, starty
     if isdraw:
-        endx = event.xdata        
-        endy = event.ydata        
+        endx = event.xdata
+        endy = event.ydata
         x1 = [startx, endx]
         y1 = [starty, endy]
         ax.plot(x1, y1, color='black', linestyle='-', linewidth='40')
@@ -70,7 +70,7 @@ def on_mouse_move(event):
 def LoadNet():
     net = rt.InferenceSession("ONNX/mnist.onnx")
     return net
-   
+
 if __name__ == "__main__":
     isdraw = False
     startx, starty = 0, 0
@@ -89,7 +89,7 @@ if __name__ == "__main__":
     fig.canvas.mpl_connect('button_release_event', on_mouse_release)
     fig.canvas.mpl_connect('button_press_event', on_mouse_press)
     fig.canvas.mpl_connect('motion_notify_event', on_mouse_move)
-    
+
     plt.axis([0,1,0,1])
     plt.show()
 

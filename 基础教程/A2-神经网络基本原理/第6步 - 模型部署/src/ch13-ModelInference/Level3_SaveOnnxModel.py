@@ -13,7 +13,7 @@ from ONNXConverter.transfer import ModelTransfer
 
 
 # some configuration
-# these variables records the path for the strored weights
+# these variables records the path for the stored weights
 fc1_wb_path = "./MNIST_64_16/wb1.npz"
 fc2_wb_path = "./MNIST_64_16/wb2.npz"
 fc3_wb_path = "./MNIST_64_16/wb3.npz"
@@ -38,7 +38,7 @@ class Cmodel(object):
         self.activation3 = Csoftmax(self.fc3.outputShape, name="activation3", exname="fc3")
 
         self.model = [
-          self.fc1, self.activation1, self.fc2, self.activation2, self.fc3, self.activation3,  
+          self.fc1, self.activation1, self.fc2, self.activation2, self.fc3, self.activation3,
         ]
 
         self.fc1.weights = fc1_wb['weights']
@@ -49,9 +49,9 @@ class Cmodel(object):
         self.fc3.bias = fc3_wb['bias'].reshape(self.fc3.bias.shape)
 
     def save_model(self, path="./"):
-        
+
         model_path = os.path.join(path, "model.json")
-        model_save(self.model, path) 
+        model_save(self.model, path)
         ModelTransfer(model_path, os.path.join(path, "mnist.onnx"))
 
 if __name__ == '__main__':
