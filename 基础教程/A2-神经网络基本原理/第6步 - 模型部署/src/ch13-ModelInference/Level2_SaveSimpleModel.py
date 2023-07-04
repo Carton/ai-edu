@@ -6,4 +6,4 @@ outputs = keras.layers.ReLU()(dense_result)
 
 model = keras.Model(inputs=inputs, outputs=outputs, name='simple_model')
 model.save('simple_model.h5')
-
+print("Done!")
